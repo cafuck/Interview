@@ -1,0 +1,117 @@
+//因为理解了，所以复制
+//来源：https://blog.csdn.net/tanyujing/article/details/8622362
+//寻找每人发帖都超过1/4的3位灌水大王
+//题目源自 <<编程之美>> 题目2.3 扩展问题
+//有一道扩展题，题目如下：
+//随着Tango的发展，管理员发现，“超级水王”没有了。统计结果表明，有3个发帖很多的ID，他们的发帖数目都超过了帖子总数目N的1/4。
+//你能从发帖ID列表中快速找出他们的ID吗？
+
+//这道题显然还是用原题中的思路去解决，但问题复杂了，由原来的一个水王，变成了3个，且他们的总数目皆超过总体数的1/4。我的思路如下：
+//首先，上题思路是，当遍历ID与当前ID（candidate变量）不同时，当前ID（candidate变量）所遍历到的个数减1（nTimes - 1）,
+//相同则遍历数加1，当nTimes等于0时，就说明，当前ID遍历到的个数为0或已被抵消为0，那当前ID就等于新遍历到的ID，
+//且其遍历数赋为1（当然这个新遍历到的ID可以等于当前），这就意味着，整个遍历下来，相同的ID都会被累加起来，而不同ID之间会互相抵消，
+//最后剩下来的candidate变量就是灌水王ID，但我们能保证一定是灌水王的ID吗？让我们假设一种最极端的状况就是，所有非灌水王ID都与灌水王ID抵消，
+//但因为，灌水王占大于总帖数一半的帖数，故其总遍历数减去所有帖子数，总会大于0，所以最终返回的condidate变量总会是灌水王的ID。
+//有了上题的思路之后，我们就着手于这一题了。上题只需要一个结果，而现在需要3个结果，所以我们考虑数组作为返回值，同时，上题用到的nTimes，
+//也应改为一个大小为3的数组。我们要如何保证最终返回的数组的3个元素就是3个灌水最多的用户呢？
+//首先分析其所占比例，各超过1/4,也就是说剩下的其它ID所占帖数就不足总帖数1/4了。
+//现在我们需要3个变量来记录当前遍历过的3个不同的ID，而nTimes的3个元素分别对应当前遍历过的3个ID出现的个数。
+//如果遍历中有某个ID不同于这3个当前ID，我们就判断当前3个ID是否有某个的nTimes为0，如果有，那这个新遍历的ID就取而代之，
+//并赋1为它的遍历数（即nTimes减1），如果当前3个ID的nTimes皆不为0，则3个ID的nTimes皆减去1，这也就是解决本文题的关键了。
+//由于非水王ID不满总帖数的1/4,与上题思路相同，所遍历ID与当前3个ID不同时，就一同抵消（即3个当前ID的nTimes值减1），
+//最终留下来的3个当前ID总会是3个超过1/4的水王ID。
+
+//伪代码
+Type * find(Type * ID,int n){  
+  /* 
+    n       帖子总数， 
+    ID      用户ID列表 
+    result  储存3个当前遍历到的不同ID 
+    nTimes  储存对应ID已遍历到的个数被抵消后的值 
+  */  
+  Type result[] = {NULL,NULL,NULL}; 
+  int i
+  int nTimes[] = {0,0,0};  
+
+  for(i=0;i<n;i++){  
+   if(nTimes[0] == 0 && ID[i] != result[1] && ID[i] != result[2]){  //如果和另外两个都不一样，又有空位，我就坐上去
+      nTimes[0] = 1;  
+      result[0] = ID[i];  
+    }  
+    else if(nTimes[1] == 0 && ID[i] != result[0] && ID[i] != result[2]){  
+         nTimes[1] = 1;  
+         result[1] = ID[i];  
+    }  
+     else if(nTimes[2] == 0 && ID[i] != result[0] && ID[i] != result[1]){  
+         nTimes[2] = 1;  
+         result[2] = ID[i];  
+     }  
+     else if(ID[i] != result[0] && ID[i] != result[1] && ID[i] != result[2] ){  //如果和三个都一样，大家全部消除 1
+       nTimes[0] -= 1;  
+       nTimes[1] -= 1;  
+       nTimes[2] -= 1;  
+     }else if(ID[i] == result[0]){  //如果三个中的一个一样，增加 1
+         nTimes[0] += 1;  
+     }else if(ID[i] == result[1]){  
+         nTimes[1] += 1;  
+     }else if(ID[i] == result[2]){  
+         nTimes[2] += 1;  
+     }  
+  }  
+  
+return result;  
+ } 
+ 
+ 
+ //Java 代码
+ public class beauty_2_3_kuozhan {  
+  
+    /** 
+     * @param args 
+     */  
+    public static void main(String[] args) {  
+        String[] ids={"0","4","1","4","0","4","1","4","1","0","3","3","0","3","3","3"};  
+        String[] result = Find(ids);  
+        for(int i = 0;i<result.length;i++){  
+            System.out.println(result[i]);  
+        }  
+    }  
+    public static String[] Find(String[] ids){  
+        if(ids == null) return null;  
+        String candate0= null;  
+        String candate1= null;  
+        String candate2= null;  
+        int times0 = 0;  
+        int times1 = 0;  
+        int times2 = 0;  
+        int len = ids.length;  
+        for(int i =0;i<len;i++){  
+            if(times0==0&&ids[i]!=candate1&&ids[i]!=candate2){  
+                candate0=ids[i];  
+                times0++;  
+            }  
+            else if(times1==0&&ids[i]!=candate0&&ids[i]!=candate2){  
+                candate1=ids[i];  
+                times1++;  
+            }  
+            else if(times2==0&&ids[i]!=candate0&&ids[i]!=candate1){  
+                candate2=ids[i];  
+                times2++;  
+            }  
+            else if(ids[i]!=candate1&&ids[i]!=candate0&&ids[i]!=candate2){  
+                times0--;  
+                times1--;  
+                times2--;  
+            }  
+            else if(ids[i]==candate0)  
+                times0++;  
+            else if(ids[i]==candate1)  
+                times1++;  
+            else if(ids[i]==candate2)  
+                times2++;  
+        }  
+        String[] result = {candate0,candate1,candate2};  
+        return result;  
+    }  
+  
+}  
