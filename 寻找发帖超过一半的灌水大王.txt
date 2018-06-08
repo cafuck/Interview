@@ -1,0 +1,40 @@
+//来源：https://blog.csdn.net/tanyujing/article/details/8622362
+//寻找发帖超过一半的灌水大王
+//题目源自 <<编程之美>> 题目2.3
+
+public class beauty_2_3 {  
+  
+    /** 
+     * @param args 
+     */  
+    public static void main(String[] args) {  
+        String[] ids = {"ab","ab","dc","ab","aa","ab"};  
+        System.out.println(find(ids));  
+  
+    }  
+  
+    public static String find(String[] id){  
+        if(id == null){  
+            System.out.println("请输入id列表");  
+            return null;  
+        }             
+        int n = id.length;  
+        String candidate = null;  
+        int ntimes,i;  
+        for(i = ntimes = 0;i<n;i++){  
+            if(ntimes == 0){  
+                candidate = id[i];  
+                ntimes = 1;  
+            }  
+            else{  
+                if(candidate == id[i])  
+                    ntimes ++;  
+                else   
+                    ntimes --;  
+            }  
+        }  
+        return candidate;  
+          
+          
+    }  
+}
