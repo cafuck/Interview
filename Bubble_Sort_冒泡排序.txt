@@ -1,0 +1,35 @@
+//Bubble Sort
+#include <stdio.h>
+#include <stdlib.h>
+
+void bubble_sort(int* array, int array_size)
+{
+	int out_loop = array_size-1;
+	int in_loop = out_loop-1;
+
+	for(temp = 0;out_loop > 0; out_loop --){
+		for(in_loop = 0; in_loop < out_loop; in_loop++){
+			if(array[in_loop] > array[in_loop +1]){	//need to swap
+				temp = *(array + in_loop +1);
+				*(array + in_loop +1) = *(array + in_loop);
+				*(array + in_loop) = temp;
+			}
+		}
+	}
+}
+
+int main()
+{
+	int i = 0;
+	int num[10] = { 0 };
+	printf("Please input 10 numbers\n");
+	scanf("%d %d %d %d %d %d %d %d %d %d", \
+		&num[0], &num[1], &num[2], &num[3], &num[4], \
+		&num[5], &num[6], &num[7], &num[8], &num[9]);
+
+	bubble_sort(num, sizeof(num)/sizeof(*num));
+	printf("After Sort, arrary now:\n");
+	for (i=0; i < 10; i++)
+		printf("%d ", num[i]);
+	printf("\n");
+}
