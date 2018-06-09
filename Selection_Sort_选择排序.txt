@@ -1,0 +1,43 @@
+//Selection Sort
+#include <stdio.h>
+#include <stdlib.h>
+
+void selection_sort(int* array, int array_len)
+{
+	int out_loop = 0;
+	int in_loop = 0;
+	int min_pos = 0;
+  int temp = 0;
+	
+	for(; out_loop < array_len; out_loop++)
+	{
+		//every IN_LOOP, get min value postion in $min_pos
+		for(min_pos = in_loop = out_loop; in_loop < array_len; in_loop++)
+		{
+			if(*(array + in_loop) < *(array + min_pos))
+				min_pos = in_loop;
+		}
+		printf("min_pos=%d\n", min_pos);
+
+		//put min member at the front of array
+		temp = *(array + out_loop);
+		*(array + out_loop) = *(array + min_pos);
+		*(array + min_pos) = temp;
+	}
+}
+
+int main()
+{
+	int i = 0;
+	int num[10] = { 0 };
+	printf("Please input 10 numbers\n");
+	scanf("%d %d %d %d %d %d %d %d %d %d", \
+		&num[0], &num[1], &num[2], &num[3], &num[4], \
+		&num[5], &num[6], &num[7], &num[8], &num[9]);
+
+	selection_sort(num, sizeof(num)/sizeof(*num));
+	printf("After Sort, arrary now:\n");
+	for (i=0; i < 10; i++)
+		printf("%d ", num[i]);
+	printf("\n");
+}
