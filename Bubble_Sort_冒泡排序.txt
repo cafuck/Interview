@@ -6,6 +6,7 @@ void bubble_sort(int* array, int array_size)
 {
 	int out_loop = array_size-1;
 	int in_loop = out_loop-1;
+	int temp = 0;
 
 	for(temp = 0;out_loop > 0; out_loop --){
 		for(in_loop = 0; in_loop < out_loop; in_loop++){
