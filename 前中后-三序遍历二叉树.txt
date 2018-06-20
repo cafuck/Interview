@@ -1,0 +1,89 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct binary_tree_node{
+        char data;
+        struct binary_tree_node *L_child;
+        struct binary_tree_node *R_child;
+}bin_tree_node;
+
+void pre_order_traverse(bin_tree_node* node){
+        if(node == NULL)
+                return;
+
+        printf("%c ", node->data);
+        pre_order_traverse(node->L_child);
+        pre_order_traverse(node->R_child);
+}
+void in_order_traverse(bin_tree_node* node){
+        if(node == NULL)
+                return;
+
+        in_order_traverse(node->L_child);
+        printf("%c ", node->data);
+        in_order_traverse(node->R_child);
+}
+void post_order_traverse(bin_tree_node* node){
+        if(node == NULL)
+                return;
+
+        post_order_traverse(node->L_child);
+        post_order_traverse(node->R_child);
+        printf("%c ", node->data);
+}
+
+int main()
+{
+        int i = 0;
+        int n = 10;
+        bin_tree_node A, B, C, D, E, F, G, H, I, J;
+
+        A.data = 'A';
+        A.L_child = &B;
+        A.R_child = &C;
+
+        B.data = 'B';
+        B.L_child = &D;
+        B.R_child = &E;
+
+        C.data = 'C';
+        C.L_child = &F;
+        C.R_child = &G;
+
+        D.data = 'D';
+        D.L_child = &H;
+        D.R_child = &I;
+
+        E.data = 'E';
+        E.L_child = &J;
+        E.R_child = NULL;
+
+        F.data = 'F';
+        F.L_child = NULL;
+        F.R_child = NULL;
+
+        G.data = 'G';
+        G.L_child = NULL;
+        G.R_child = NULL;
+
+        H.data = 'H';
+        H.L_child = NULL;
+        H.R_child = NULL;
+
+        I.data = 'I';
+        I.L_child = NULL;
+        I.R_child = NULL;
+
+        J.data = 'J';
+        J.L_child = NULL;
+        J.R_child = NULL;
+
+        pre_order_traverse(&A);
+        printf("<-- pre_order_traverse\n");
+
+        in_order_traverse(&A);
+        printf("<-- in_order_traverse\n");
+
+        post_order_traverse(&A);
+        printf("<-- post_order_traverse\n");
+}
